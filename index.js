@@ -1,3 +1,4 @@
+const urlParse = require('url').parse;
 const onHeaders = require('on-headers');
 const uuidv4 = require('uuid/v4');
 
@@ -31,7 +32,6 @@ function initMiddleware(opts = {}) {
     onHeaders(res, () => {
       const [s, ns] = process.hrtime(requestStart);
       const time = s * 1e3 + ns * 1e-6; // convert to ms
-      const endpoint = `${req.method} ${req.path}`;
 
       stats.totalTime += time;
       stats.count++;
@@ -41,6 +41,11 @@ function initMiddleware(opts = {}) {
         : 1;
 
       if (opts.endpointStats) {
+        // prefer using `req.originalUrl` as some frameworks replace `req.url`
+        const url = req.originalUrl || req.url;
+        const path = urlParse(url).pathname;
+        const endpoint = `${req.method} ${path}`;
+
         if (!endpointStats[endpoint]) {
           endpointStats[endpoint] = {
             totalTime: 0,

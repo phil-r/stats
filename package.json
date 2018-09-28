@@ -1,0 +1,45 @@
+{
+  "name": "@zenmate/stats",
+  "version": "0.0.1",
+  "license": "MIT",
+  "author": "Phil Rukin <phil@zenmate.com>",
+  "description": "Request statistics middleware",
+  "main": "index.js",
+  "keywords": [
+    "middleware",
+    "statistics",
+    "stats",
+    "express",
+    "http"
+  ],
+  "bugs": {
+    "url": "https://github.com/zenmate/stats/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zenmate/stats.git"
+  },
+  "homepage": "https://github.com/zenmate/stats#readme",
+  "scripts": {
+    "test": "npm run lint",
+    "lint": "eslint --ignore-path .gitignore **/*.js"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  },
+  "prettier": {
+    "singleQuote": true
+  },
+  "dependencies": {
+    "on-headers": "^1.0.1",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "eslint": "^5.6.0",
+    "eslint-config-prettier": "^3.1.0",
+    "eslint-plugin-prettier": "^2.7.0",
+    "prettier": "^1.14.3"
+  }
+}

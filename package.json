@@ -40,7 +40,7 @@
     "eslint": "^5.6.0",
     "eslint-config-prettier": "^4.0.0",
     "eslint-plugin-prettier": "^3.0.0",
-    "husky": "^1.1.2",
+    "husky": "^2.3.0",
     "prettier": "^1.17.1",
     "pretty-quick": "^1.8.0"
   }

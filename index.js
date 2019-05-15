@@ -1,6 +1,7 @@
 const urlParse = require('url').parse;
 const onHeaders = require('on-headers');
 const uuidv4 = require('uuid/v4');
+const regexparam = require('regexparam');
 
 function initMiddleware(opts = {}) {
   const stats = {
@@ -13,6 +14,10 @@ function initMiddleware(opts = {}) {
 
   const statusCodes = {};
   const endpointStats = {};
+  const complexEndpoints =
+    (opts.complexEndpoints &&
+      opts.complexEndpoints.map(path => ({ ...regexparam(path), path }))) ||
+    [];
 
   function getStats() {
     const result = {
@@ -43,7 +48,11 @@ function initMiddleware(opts = {}) {
       if (opts.endpointStats) {
         // prefer using `req.originalUrl` as some frameworks replace `req.url`
         const url = req.originalUrl || req.url;
-        const path = urlParse(url).pathname;
+        let path = urlParse(url).pathname;
+        const complexPath = complexEndpoints.find(endpoint =>
+          endpoint.pattern.test(path)
+        );
+        path = complexPath ? complexPath.path : path;
         const endpoint = `${req.method} ${path}`;
 
         if (!endpointStats[endpoint]) {

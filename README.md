@@ -30,11 +30,17 @@ that returns current stats
 
 Defaults to `false`
 
-Boolean that indicates wether to track per endpoint stats.
+Boolean that indicates whether to track per endpoint stats.
 
-**Not recommended** for complex applications and applications
-that have endpoints like `/user/123`
+##### complexEndpoints
 
+Defaults to `[]`
+
+Used in conjunction with `endpointStats`
+
+Use it in case your application has routes with params or wildcard routes
+
+**Recommended** for applications that have endpoints like `/user/123`
 
 ## Example
 
@@ -44,11 +50,15 @@ Here is the example of usage in express app
 const app = require('express')();
 const initStats = require('@phil-r/stats');
 
-const { statsMiddleware, getStats } = initStats({ endpointStats: true });
+const { statsMiddleware, getStats } = initStats({
+  endpointStats: true,
+  complexEndpoints: ['/user/:id']
+});
 
 app.use(statsMiddleware);
-app.get('/', (req,res) => res.end('Hello'));
-app.get('/stats', (req,res) => res.send(getStats()));
+app.get('/', (req, res) => res.end('Hello'));
+app.get('/user/:id', (req, res) => res.end(`Hello ${req.params.id}`));
+app.get('/stats', (req, res) => res.send(getStats()));
 
 app.listen(8080);
 console.log('Server listens at http://localhost:8080');
@@ -91,10 +101,10 @@ Visiting http://localhost:8080/stats will give following result:
 
 All time related results are in milliseconds
 
-
 # [License](LICENSE)
 
 This is a fork of [zenmate/stats](https://github.com/zenmate/stats)
 
 # Inspired by
+
 [`expressjs/response-time`](https://github.com/expressjs/response-time) and [`thoas/stats`](https://github.com/thoas/stats)

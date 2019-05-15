@@ -7,13 +7,13 @@
 ## Installation
 
 ```bash
-npm i @zenmate/stats
+npm i @phil-r/stats
 ```
 
 ## API
 
 ```js
-const initStats = require('@zenmate/stats');
+const initStats = require('@phil-r/stats');
 const { statsMiddleware, getStats } = initStats({ endpointStats: true });
 ```
 
@@ -42,7 +42,7 @@ Here is the example of usage in express app
 
 ```js
 const app = require('express')();
-const initStats = require('@zenmate/stats');
+const initStats = require('@phil-r/stats');
 
 const { statsMiddleware, getStats } = initStats({ endpointStats: true });
 
@@ -93,6 +93,8 @@ All time related results are in milliseconds
 
 
 # [License](LICENSE)
+
+This is a fork of [zenmate/stats](https://github.com/zenmate/stats)
 
 # Inspired by
 [`expressjs/response-time`](https://github.com/expressjs/response-time) and [`thoas/stats`](https://github.com/thoas/stats)

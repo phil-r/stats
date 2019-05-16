@@ -14,7 +14,10 @@ npm i @phil-r/stats
 
 ```js
 const initStats = require('@phil-r/stats');
-const { statsMiddleware, getStats } = initStats({ endpointStats: true });
+const { statsMiddleware, getStats } = initStats({
+  endpointStats: true,
+  complexEndpoints: ['/user/:id']
+});
 ```
 
 ### initStats([options])
@@ -68,31 +71,39 @@ Visiting http://localhost:8080/stats will give following result:
 
 ```json
 {
-  "uptime": 10485,
+  "uptime": 57977,
   "statusCodes": {
-    "200": 6,
-    "404": 1
+    "200": 14,
+    "404": 13
   },
-  "uuid": "b6797718-eb11-48e4-941f-8348ccf8d9ed",
-  "pid": 20797,
-  "totalTime": 10.537291,
-  "averageTime": 1.5053272857142856,
-  "count": 7,
+  "uuid": "2cea3742-a822-4bd4-89fb-5d8ddcfb52ed",
+  "pid": 84476,
+  "totalTime": 32.093976999999995,
+  "averageTime": 1.1886658148148146,
+  "count": 27,
   "endpointStats": {
     "GET /": {
-      "totalTime": 7.486513999999999,
-      "averageTime": 1.2477523333333331,
-      "count": 6,
+      "totalTime": 11.413813,
+      "averageTime": 2.2827626,
+      "count": 5,
       "statusCodes": {
-        "200": 6
+        "200": 5
       }
     },
     "GET /favicon.ico": {
-      "totalTime": 3.050777,
-      "averageTime": 3.050777,
-      "count": 1,
+      "totalTime": 15.848935,
+      "averageTime": 1.2191488461538462,
+      "count": 13,
       "statusCodes": {
-        "404": 1
+        "404": 13
+      }
+    },
+    "GET /user/:id": {
+      "totalTime": 4.831229,
+      "averageTime": 0.5368032222222223,
+      "count": 9,
+      "statusCodes": {
+        "200": 9
       }
     }
   }

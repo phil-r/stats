@@ -3,6 +3,10 @@ const onHeaders = require('on-headers');
 const uuidv4 = require('uuid/v4');
 const regexparam = require('regexparam');
 
+function hrTimeToMs([s, ns]) {
+  return s * 1e3 + ns * 1e-6; // convert to ms
+}
+
 function initMiddleware(opts = {}) {
   const stats = {
     uuid: uuidv4(),
@@ -18,6 +22,7 @@ function initMiddleware(opts = {}) {
     (opts.complexEndpoints &&
       opts.complexEndpoints.map(path => ({ ...regexparam(path), path }))) ||
     [];
+  const customStats = {};
 
   function getStats() {
     const result = {
@@ -28,15 +33,43 @@ function initMiddleware(opts = {}) {
     if (opts.endpointStats) {
       result.endpointStats = endpointStats;
     }
+    if (opts.customStats) {
+      result.customStats = customStats;
+    }
     return result;
+  }
+
+  function startMeasurement(name) {
+    if (!customStats[name]) {
+      customStats[name] = {
+        totalTime: 0,
+        averageTime: 0,
+        started: 0,
+        count: 0
+      };
+    }
+    customStats[name].started++;
+    return { start: process.hrtime(), name };
+  }
+
+  function finishMeasurement({ name, start }) {
+    const time = hrTimeToMs(process.hrtime(start));
+    customStats[name].totalTime += time;
+    customStats[name].count++;
+    customStats[name].averageTime =
+      customStats[name].totalTime / customStats[name].count;
   }
 
   function statsMiddleware(req, res, next) {
     const requestStart = process.hrtime();
 
+    if (opts.customStats) {
+      req.startMeasurement = startMeasurement;
+      req.finishMeasurement = finishMeasurement;
+    }
+
     onHeaders(res, () => {
-      const [s, ns] = process.hrtime(requestStart);
-      const time = s * 1e3 + ns * 1e-6; // convert to ms
+      const time = hrTimeToMs(process.hrtime(requestStart));
 
       stats.totalTime += time;
       stats.count++;

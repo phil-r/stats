@@ -16,7 +16,8 @@ npm i @phil-r/stats
 const initStats = require('@phil-r/stats');
 const { statsMiddleware, getStats } = initStats({
   endpointStats: true,
-  complexEndpoints: ['/user/:id']
+  complexEndpoints: ['/user/:id'],
+  customStats: true
 });
 ```
 
@@ -45,7 +46,24 @@ Use it in case your application has routes with params or wildcard routes
 
 **Recommended** for applications that have endpoints like `/user/123`
 
-## Example
+##### customStats
+
+Defaults to `false`
+
+Adds `startMeasurement` and `finishMeasurement` functions to the request objects
+and allows measuring any parts of the app.
+
+**Usage:**
+
+```js
+function handler(req, res) {
+  const measurement = req.startMeasurement('measurementName');
+  // Some code...
+  req.finishMeasurement(measurement);
+}
+```
+
+## Full example
 
 Here is the example of usage in express app
 
@@ -55,12 +73,21 @@ const initStats = require('@phil-r/stats');
 
 const { statsMiddleware, getStats } = initStats({
   endpointStats: true,
-  complexEndpoints: ['/user/:id']
+  complexEndpoints: ['/user/:id'],
+  customStats: true
 });
 
 app.use(statsMiddleware);
 app.get('/', (req, res) => res.end('Hello'));
 app.get('/user/:id', (req, res) => res.end(`Hello ${req.params.id}`));
+app.get('/long', async (req, res) => {
+  const measurement = req.startMeasurement('long');
+  await new Promise(resolve => {
+    setTimeout(() => resolve(), 2000);
+  });
+  req.finishMeasurement(measurement);
+  res.end(`Long job finished`);
+});
 app.get('/stats', (req, res) => res.send(getStats()));
 
 app.listen(8080);
@@ -71,40 +98,56 @@ Visiting http://localhost:8080/stats will give following result:
 
 ```json
 {
-  "uptime": 57977,
+  "uptime": 63881,
   "statusCodes": {
-    "200": 14,
-    "404": 13
+    "200": 5,
+    "404": 4
   },
-  "uuid": "2cea3742-a822-4bd4-89fb-5d8ddcfb52ed",
-  "pid": 84476,
-  "totalTime": 32.093976999999995,
-  "averageTime": 1.1886658148148146,
-  "count": 27,
+  "uuid": "330d9cc6-7d40-4964-888c-4d2817905ee1",
+  "pid": 90603,
+  "totalTime": 4020.3912830000004,
+  "averageTime": 446.7101425555556,
+  "count": 9,
   "endpointStats": {
-    "GET /": {
-      "totalTime": 11.413813,
-      "averageTime": 2.2827626,
-      "count": 5,
+    "GET /long": {
+      "totalTime": 4009.410922,
+      "averageTime": 2004.705461,
+      "count": 2,
       "statusCodes": {
-        "200": 5
+        "200": 2
       }
     },
     "GET /favicon.ico": {
-      "totalTime": 15.848935,
-      "averageTime": 1.2191488461538462,
-      "count": 13,
+      "totalTime": 4.286955,
+      "averageTime": 1.07173875,
+      "count": 4,
       "statusCodes": {
-        "404": 13
+        "404": 4
+      }
+    },
+    "GET /stats": {
+      "totalTime": 6.227342999999999,
+      "averageTime": 6.227342999999999,
+      "count": 1,
+      "statusCodes": {
+        "200": 1
       }
     },
     "GET /user/:id": {
-      "totalTime": 4.831229,
-      "averageTime": 0.5368032222222223,
-      "count": 9,
+      "totalTime": 0.466063,
+      "averageTime": 0.2330315,
+      "count": 2,
       "statusCodes": {
-        "200": 9
+        "200": 2
       }
+    }
+  },
+  "customStats": {
+    "long": {
+      "totalTime": 4005.556455,
+      "averageTime": 2002.7782275,
+      "started": 2,
+      "count": 2
     }
   }
 }

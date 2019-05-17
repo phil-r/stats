@@ -4,9 +4,7 @@ const uuidv4 = require('uuid/v4');
 const regexparam = require('regexparam');
 const prettyTime = require('pretty-time');
 
-function hrTimeToMs([s, ns]) {
-  return s * 1e3 + ns * 1e-6; // convert to ms
-}
+const { hrTimeToMs } = require('./utils');
 
 function initMiddleware(opts = {}) {
   const stats = {

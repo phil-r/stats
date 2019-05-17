@@ -17,7 +17,8 @@ const initStats = require('@phil-r/stats');
 const { statsMiddleware, getStats } = initStats({
   endpointStats: true,
   complexEndpoints: ['/user/:id'],
-  customStats: true
+  customStats: true,
+  addHeader: true
 });
 ```
 
@@ -63,6 +64,13 @@ function handler(req, res) {
 }
 ```
 
+##### addHeader
+
+Defaults to `false`
+
+Adds `X-Response-Time` header to all responses, can be used to replace
+[`expressjs/response-time`](https://github.com/expressjs/response-time)
+
 ## Full example
 
 Here is the example of usage in express app
@@ -74,7 +82,8 @@ const initStats = require('@phil-r/stats');
 const { statsMiddleware, getStats } = initStats({
   endpointStats: true,
   complexEndpoints: ['/user/:id'],
-  customStats: true
+  customStats: true,
+  addHeader: true
 });
 
 app.use(statsMiddleware);

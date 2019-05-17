@@ -73,6 +73,12 @@ function initMiddleware(opts = {}) {
     onHeaders(res, () => {
       const time = hrTimeToMs(process.hrtime(requestStart));
 
+      if (opts.addHeader) {
+        if (!res.getHeader('X-Response-Time')) {
+          res.setHeader('X-Response-Time', `${time.toFixed(0)}ms`);
+        }
+      }
+
       stats.totalTime += time;
       stats.count++;
       stats.averageTime = stats.totalTime / stats.count;

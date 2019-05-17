@@ -2,6 +2,7 @@
 
 > Request statistics middleware
 
+[![build status](https://img.shields.io/travis/phil-r/stats/master.svg?style=flat-square)](https://travis-ci.org/phil-r/stats)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 ## Installation

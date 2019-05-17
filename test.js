@@ -150,7 +150,7 @@ test('utils.hrTimeToMs works correctly', t => {
 function createServer(statsMiddleware) {
   return http.createServer((req, res) => {
     statsMiddleware(req, res, () => {
-      res.statusCode = 200;
+      res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
       res.end('👍');
     });
   });

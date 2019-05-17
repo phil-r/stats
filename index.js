@@ -2,6 +2,7 @@ const urlParse = require('url').parse;
 const onHeaders = require('on-headers');
 const uuidv4 = require('uuid/v4');
 const regexparam = require('regexparam');
+const prettyTime = require('pretty-time');
 
 function hrTimeToMs([s, ns]) {
   return s * 1e3 + ns * 1e-6; // convert to ms
@@ -27,6 +28,7 @@ function initMiddleware(opts = {}) {
   function getStats() {
     const result = {
       uptime: process.uptime() * 1e3, // convert to ms
+      uptimeHumanReadable: prettyTime(Math.floor(process.uptime() * 1e9)),
       statusCodes,
       ...stats
     };

@@ -99,6 +99,7 @@ Visiting http://localhost:8080/stats will give following result:
 ```json
 {
   "uptime": 63881,
+  "uptimeHumanReadable": "1m 4s",
   "statusCodes": {
     "200": 5,
     "404": 4

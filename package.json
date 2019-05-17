@@ -34,6 +34,7 @@
   },
   "dependencies": {
     "on-headers": "^1.0.1",
+    "pretty-time": "^1.1.0",
     "regexparam": "^1.2.1",
     "uuid": "^3.3.2"
   },

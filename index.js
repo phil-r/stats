@@ -114,7 +114,7 @@ function initMiddleware(opts = {}) {
       }
     });
 
-    next();
+    return next();
   }
   return { getStats, statsMiddleware };
 }

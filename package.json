@@ -22,7 +22,7 @@
   "homepage": "https://github.com/phil-r/stats#readme",
   "scripts": {
     "test": "npm run lint && npm run ava",
-    "ava": "ava",
+    "ava": "nyc --reporter=lcov --reporter=text ava",
     "lint": "eslint --ignore-path .gitignore **/*.js"
   },
   "husky": {
@@ -45,6 +45,7 @@
     "eslint-config-prettier": "^4.2.0",
     "eslint-plugin-prettier": "^3.0.0",
     "husky": "^2.3.0",
+    "nyc": "^14.1.1",
     "prettier": "^1.17.1",
     "pretty-quick": "^1.8.0",
     "supertest": "^4.0.2"

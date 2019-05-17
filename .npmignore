@@ -1,6 +1,12 @@
 # Examples
 examples/
 
+# Tests
+test.js
+
+# Travis
+.travis.yml
+
 # Logs
 logs
 *.log

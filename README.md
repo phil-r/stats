@@ -73,9 +73,11 @@ Defaults to `false`
 Adds `X-Response-Time` header to all responses, can be used to replace
 [`expressjs/response-time`](https://github.com/expressjs/response-time)
 
-## Full example
+## Example
 
-Here is the example of usage in express app
+Examples for popular node web frameworks can be found [here](./examples)
+
+Here is the example of usage in express app:
 
 ```js
 const app = require('express')();

@@ -2,6 +2,7 @@
 
 > Request statistics middleware
 
+[![NPM version](http://img.shields.io/npm/v/@phil-r/stats.svg?style=flat-square)](https://www.npmjs.com/package/@phil-r/stats)
 [![build status](https://img.shields.io/travis/phil-r/stats/master.svg?style=flat-square)](https://travis-ci.org/phil-r/stats)
 [![code coverage](https://img.shields.io/codecov/c/github/phil-r/stats.svg?style=flat-square)](https://codecov.io/gh/phil-r/stats)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)

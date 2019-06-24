@@ -25,7 +25,7 @@ router.get('/long', async ctx => {
     setTimeout(resolve, 2000);
   });
   ctx.req.finishMeasurement(measurement);
-  ctx.body = 'Long job finished';
+  ctx.body = 'Long job finished'; // eslint-disable-line require-atomic-updates
 });
 router.get('/stats', ctx => (ctx.body = getStats()));
 

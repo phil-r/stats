@@ -1,6 +1,6 @@
 {
   "name": "@phil-r/stats",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "license": "MIT",
   "author": "Phil Rukin <philipp@rukin.me> (https://rukin.me)",
   "description": "Request statistics middleware",

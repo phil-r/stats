@@ -1,6 +1,6 @@
 const urlParse = require('url').parse;
 const onHeaders = require('on-headers');
-const uuidv4 = require('uuid/v4');
+const { v4: uuidv4 } = require('uuid');
 const regexparam = require('regexparam');
 const prettyTime = require('pretty-time');
 

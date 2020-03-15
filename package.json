@@ -10,7 +10,13 @@
     "statistics",
     "stats",
     "express",
-    "http"
+    "http",
+    "requests",
+    "counter",
+    "koa",
+    "rayo",
+    "polka",
+    "fastify"
   ],
   "bugs": {
     "url": "https://github.com/phil-r/stats/issues"

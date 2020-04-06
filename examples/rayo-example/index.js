@@ -5,7 +5,7 @@ const { statsMiddleware, getStats } = initStats({
   endpointStats: true,
   complexEndpoints: ['/user/:id'],
   customStats: true,
-  addHeader: true
+  addHeader: true,
 });
 
 rayo({ port: 8080 })
@@ -14,7 +14,7 @@ rayo({ port: 8080 })
   .get('/user/:id', (req, res) => res.end(`Hello ${req.params.id}`))
   .get('/long', async (req, res) => {
     const measurement = req.startMeasurement('long');
-    await new Promise(resolve => {
+    await new Promise((resolve) => {
       setTimeout(resolve, 2000);
     });
     req.finishMeasurement(measurement);

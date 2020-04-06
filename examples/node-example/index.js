@@ -5,7 +5,7 @@ const { statsMiddleware, getStats } = initStats({
   endpointStats: true,
   complexEndpoints: ['/user/:id'],
   customStats: true,
-  addHeader: true
+  addHeader: true,
 });
 
 http
@@ -20,7 +20,7 @@ http
         return res.end(`Hello ${req.url.split('/user/')[1]}`);
       }
       const measurement = req.startMeasurement('long');
-      await new Promise(resolve => {
+      await new Promise((resolve) => {
         setTimeout(resolve, 2000);
       });
       req.finishMeasurement(measurement);

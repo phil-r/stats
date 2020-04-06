@@ -12,14 +12,14 @@ function initMiddleware(opts = {}) {
     pid: process.pid,
     totalTime: 0,
     averageTime: 0,
-    count: 0
+    count: 0,
   };
 
   const statusCodes = {};
   const endpointStats = {};
   const complexEndpoints =
     (opts.complexEndpoints &&
-      opts.complexEndpoints.map(path => ({ ...regexparam(path), path }))) ||
+      opts.complexEndpoints.map((path) => ({ ...regexparam(path), path }))) ||
     [];
   const customStats = {};
 
@@ -28,7 +28,7 @@ function initMiddleware(opts = {}) {
       uptime: process.uptime() * 1e3, // convert to ms
       uptimeHumanReadable: prettyTime(Math.floor(process.uptime() * 1e9)),
       statusCodes,
-      ...stats
+      ...stats,
     };
     if (opts.endpointStats) {
       result.endpointStats = endpointStats;
@@ -45,7 +45,7 @@ function initMiddleware(opts = {}) {
         totalTime: 0,
         averageTime: 0,
         started: 0,
-        count: 0
+        count: 0,
       };
     }
     customStats[name].started++;
@@ -88,7 +88,7 @@ function initMiddleware(opts = {}) {
         // prefer using `req.originalUrl` as some frameworks replace `req.url`
         const url = req.originalUrl || req.url;
         let path = urlParse(url).pathname;
-        const complexPath = complexEndpoints.find(endpoint =>
+        const complexPath = complexEndpoints.find((endpoint) =>
           endpoint.pattern.test(path)
         );
         path = complexPath ? complexPath.path : path;
@@ -99,7 +99,7 @@ function initMiddleware(opts = {}) {
             totalTime: 0,
             averageTime: 0,
             count: 0,
-            statusCodes: {}
+            statusCodes: {},
           };
         }
 

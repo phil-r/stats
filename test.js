@@ -6,13 +6,13 @@ const http = require('http');
 const initStats = require('.');
 const { hrTimeToMs } = require('./utils');
 
-test('initMiddleware returns getStats and statsMiddleware', t => {
+test('initMiddleware returns getStats and statsMiddleware', (t) => {
   const { getStats, statsMiddleware } = initStats();
   t.is(typeof getStats, 'function');
   t.is(typeof statsMiddleware, 'function');
 });
 
-test('getStats returns a correct object', t => {
+test('getStats returns a correct object', (t) => {
   const { getStats } = initStats();
   const stats = getStats();
   t.is(typeof stats.uptime, 'number');
@@ -29,7 +29,7 @@ test('getStats returns a correct object', t => {
   t.is(typeof stats.customStats, 'undefined');
 });
 
-test('statsMiddleware works', async t => {
+test('statsMiddleware works', async (t) => {
   const { getStats, statsMiddleware } = initStats();
   const server = createServer(statsMiddleware);
 
@@ -52,7 +52,7 @@ test('statsMiddleware works', async t => {
   t.deepEqual(stats.statusCodes, { 200: 2 });
 });
 
-test('endpointStats option works', async t => {
+test('endpointStats option works', async (t) => {
   const { getStats, statsMiddleware } = initStats({ endpointStats: true });
   const server = createServer(statsMiddleware);
 
@@ -78,10 +78,10 @@ test('endpointStats option works', async t => {
   t.deepEqual(endpointStat.statusCodes, { 200: 1 });
 });
 
-test('complexEndpoints option works', async t => {
+test('complexEndpoints option works', async (t) => {
   const { getStats, statsMiddleware } = initStats({
     endpointStats: true,
-    complexEndpoints: ['/user/:id']
+    complexEndpoints: ['/user/:id'],
   });
   const server = createServer(statsMiddleware);
 
@@ -99,7 +99,7 @@ test('complexEndpoints option works', async t => {
   t.deepEqual(endpointStat.statusCodes, { 200: 2 });
 });
 
-test('customStats option works', t => {
+test('customStats option works', (t) => {
   const { getStats, statsMiddleware } = initStats({ customStats: true });
   const req = {};
   statsMiddleware(req, {}, () => {});
@@ -130,7 +130,7 @@ test('customStats option works', t => {
   t.is(customStat.count, 2);
 });
 
-test('addHeader option works', async t => {
+test('addHeader option works', async (t) => {
   const { statsMiddleware } = initStats({ addHeader: true });
   const server = createServer(statsMiddleware);
 
@@ -139,7 +139,7 @@ test('addHeader option works', async t => {
   t.assert(res.headers['x-response-time'].includes('ms'));
 });
 
-test('utils.hrTimeToMs works correctly', t => {
+test('utils.hrTimeToMs works correctly', (t) => {
   t.is(hrTimeToMs([0, 0]), 0);
   t.is(hrTimeToMs([1, 0]), 1000); // 1st argument is a second 1s = 1000ms
   t.is(hrTimeToMs([0, 1]), 1e-6); // 2nd argument is a nanosecond 1ns = 1e-6ms

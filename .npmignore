@@ -1,8 +1,8 @@
 # GitHub CI files
-.github
+.github/
 
 # Husky files
-.husky
+.husky/
 
 # Examples
 examples/

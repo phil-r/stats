@@ -1,7 +1,7 @@
 const urlParse = require('url').parse;
 const onHeaders = require('on-headers');
 const { v4: uuidv4 } = require('uuid');
-const regexparam = require('regexparam');
+const { parse } = require('regexparam');
 const prettyTime = require('pretty-time');
 
 const { hrTimeToMs } = require('./utils');
@@ -19,7 +19,7 @@ function initMiddleware(opts = {}) {
   const endpointStats = {};
   const complexEndpoints =
     (opts.complexEndpoints &&
-      opts.complexEndpoints.map((path) => ({ ...regexparam(path), path }))) ||
+      opts.complexEndpoints.map((path) => ({ ...parse(path), path }))) ||
     [];
   const customStats = {};
 

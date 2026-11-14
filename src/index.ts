@@ -93,6 +93,7 @@ export function createStats(opts: StatsOptions = {}): StatsCollector {
     let path = url.startsWith('/')
       ? url.split(/[?#]/, 1)[0]
       : new URL(url, 'http://localhost').pathname;
+    if (opts.endpointNormalizer) path = opts.endpointNormalizer(path);
     const complexPath = complexEndpoints.find((endpoint) =>
       endpoint.pattern.test(path),
     );

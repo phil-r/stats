@@ -1,7 +1,13 @@
-/** Collection features; every option defaults to false or an empty list. */
+/** Collection features; disabled by default, with paths unchanged. */
 export interface StatsOptions {
   /** Include counters keyed by HTTP method and path, excluding query strings. */
   endpointStats?: boolean;
+  /**
+   * Normalize the query-free pathname before complexEndpoints matching and storage.
+   * Requires endpointStats; omitted means identity. HTTP methods remain separate.
+   * Must return a string synchronously; exceptions are not caught.
+   */
+  endpointNormalizer?: (pathname: string) => string;
   /** Ordered regexparam patterns; first match groups dynamic URLs. Requires endpointStats. */
   complexEndpoints?: string[];
   /** Include custom measurements in getStats(); measurement methods always work. */

@@ -64,8 +64,15 @@ test('Express: final statuses, grouped original URLs, errors, headers and timing
   assert.equal(independent.getStats().customStats, undefined);
 });
 
-test('origin-form paths retain leading double slashes', async () => {
-  const stats = createStats({ endpointStats: true });
+test('origin-form paths retain leading double slashes before normalization', async () => {
+  const paths = [];
+  const stats = createStats({
+    endpointStats: true,
+    endpointNormalizer: (pathname) => {
+      paths.push(pathname);
+      return pathname;
+    },
+  });
   const middleware = expressStats(stats);
   await serve(
     (req, res) => middleware(req, res, () => res.end('OK')),
@@ -78,6 +85,7 @@ test('origin-form paths retain leading double slashes', async () => {
         }).on('error', reject);
       }),
   );
+  assert.deepEqual(paths, ['//foo']);
   assert.equal(stats.getStats().endpointStats['GET //foo'].count, 1);
 });
 

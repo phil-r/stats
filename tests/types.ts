@@ -3,7 +3,15 @@ import express from 'express';
 import { createStats } from '../src/index.js';
 import { elysiaStats } from '../src/elysia.js';
 import { expressStats } from '../src/express.js';
-const stats = createStats({ endpointStats: true, customStats: true });
+const stats = createStats({
+  endpointStats: true,
+  customStats: true,
+  endpointNormalizer: (pathname) => pathname.toLowerCase(),
+});
+// @ts-expect-error normalizer must return a string
+createStats({ endpointNormalizer: (pathname) => pathname.length });
+// @ts-expect-error normalizer receives a string
+createStats({ endpointNormalizer: (pathname: number) => String(pathname) });
 new Elysia().use(elysiaStats(stats));
 express().use(expressStats(stats));
 stats.finishMeasurement(stats.startMeasurement('work'));

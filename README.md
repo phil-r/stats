@@ -80,14 +80,29 @@ See [Nest examples and integration details](./docs/guide.md) or
 
 ## Collector API
 
-`createStats(options?)` returns an independent collector. All options default to
-false (or `[]`):
+`createStats(options?)` returns an independent collector. Features are disabled
+by default; paths are unchanged unless normalized or grouped:
 
 - `endpointStats`: per-method/path totals, excluding query strings.
+- `endpointNormalizer`: synchronous `(pathname: string) => string`, called only
+  with `endpointStats` enabled. Receives the query-free pathname before
+  `complexEndpoints` matching and counter allocation; HTTP methods stay separate.
+  Exceptions are not caught, so keep the callback non-throwing.
 - `complexEndpoints`: ordered regexparam patterns, e.g. `['/user/:id']`; first
   match groups dynamic URLs. Use with `endpointStats` to limit unique keys.
 - `customStats`: include named custom measurements in output.
 - `addHeader`: add `X-Response-Time: Nms`, preserving existing values.
+
+Normalize noisy bot paths before allocating counters, alongside dynamic routes:
+
+```ts
+const stats = createStats({
+  endpointStats: true,
+  endpointNormalizer: (pathname) =>
+    pathname.endsWith('.php') ? '/*.php' : pathname,
+  complexEndpoints: ['/user/:id'],
+});
+```
 
 `stats.getStats()` returns request count, total/average milliseconds, status
 counts, process identity/uptime and enabled endpoint/custom totals. Nested maps
@@ -109,4 +124,4 @@ precise adapter timing, supported versions, migration and development commands.
 
 ## License
 
-[MIT](LICENSE). Fork of zenmate/stats.
+[MIT](LICENSE).

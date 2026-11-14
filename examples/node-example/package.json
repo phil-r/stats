@@ -1,14 +1,11 @@
 {
-  "name": "node-example",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "dependencies": {},
-  "devDependencies": {},
+  "name": "stats-node-example",
+  "private": true,
+  "type": "module",
   "scripts": {
-    "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
-  "author": "Phil Rukin <philipp@rukin.me> (https://rukin.me)",
-  "license": "MIT"
+  "dependencies": {
+    "@phil-r/stats": "file:../.."
+  }
 }

@@ -1,0 +1,18 @@
+{
+  "name": "stats-nestjs-example",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "start:fastify": "node index.js --fastify"
+  },
+  "dependencies": {
+    "@phil-r/stats": "file:../..",
+    "@nestjs/core": "12.5.0",
+    "@nestjs/common": "12.5.0",
+    "@nestjs/platform-express": "12.5.0",
+    "@nestjs/platform-fastify": "12.5.0",
+    "reflect-metadata": "0.2.2",
+    "rxjs": "7.8.2"
+  }
+}

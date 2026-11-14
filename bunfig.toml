@@ -1,0 +1,3 @@
+[fmt]
+singleQuote = true
+ignorePatterns = ["bun.lock", "dist/", "node_modules/", ".package-smoke-*/"]

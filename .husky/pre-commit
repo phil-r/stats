@@ -1,4 +1,1 @@
-#!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
-
-npx pretty-quick --staged
+bun fmt --no-script --staged --check --ignore-unknown

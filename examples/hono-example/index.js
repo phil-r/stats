@@ -1,0 +1,10 @@
+import { Hono } from 'hono';
+import { serve } from '@hono/node-server';
+import { createStats } from '@phil-r/stats';
+import { honoStats } from '@phil-r/stats/hono';
+const stats = createStats({ endpointStats: true, addHeader: true });
+const app = new Hono();
+app.use('*', honoStats(stats));
+app.get('/', (c) => c.text('Hello'));
+app.get('/stats', (c) => c.json(stats.getStats()));
+serve({ fetch: app.fetch, port: 8080 });

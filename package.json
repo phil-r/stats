@@ -1,10 +1,10 @@
 {
   "name": "@phil-r/stats",
-  "version": "1.4.4",
+  "version": "2.0.0",
   "license": "MIT",
   "author": "Phil Rukin <philipp@rukin.me> (https://rukin.me)",
   "description": "Request statistics middleware",
-  "main": "index.js",
+  "main": "./dist/index.js",
   "keywords": [
     "middleware",
     "statistics",
@@ -16,7 +16,10 @@
     "koa",
     "rayo",
     "polka",
-    "fastify"
+    "fastify",
+    "elysia",
+    "hono",
+    "nestjs"
   ],
   "bugs": {
     "url": "https://github.com/phil-r/stats/issues"
@@ -27,29 +30,92 @@
   },
   "homepage": "https://github.com/phil-r/stats#readme",
   "scripts": {
-    "test": "npm run lint && npm run ava",
-    "ava": "nyc --reporter=lcov --reporter=text ava",
-    "lint": "eslint --ignore-path .gitignore **/*.js",
-    "prepare": "husky install"
-  },
-  "prettier": {
-    "singleQuote": true
+    "check": "bun check --no-script",
+    "build": "bun scripts/build.ts",
+    "test": "bun test tests/*.test.ts",
+    "test:node": "node --test tests/*.integration.mjs",
+    "test:package": "bun scripts/package-smoke.ts",
+    "prepack": "bun run build",
+    "format": "bun fmt --no-script",
+    "format:check": "bun fmt --no-script --check",
+    "prepare": "node -e \"if (require('node:fs').existsSync('.git') && process.env.NODE_ENV !== 'production' && process.env.HUSKY !== '0') import('husky').then(({default: install}) => install())\""
   },
   "dependencies": {
-    "on-headers": "^1.0.1",
+    "on-headers": "^1.1.0",
     "pretty-time": "^1.1.0",
-    "regexparam": "^2.0.0",
-    "uuid": "^8.0.0"
+    "regexparam": "^3.0.0"
   },
   "devDependencies": {
-    "ava": "^3.8.2",
-    "eslint": "^7.0.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-prettier": "^3.1.3",
-    "husky": "^6.0.0",
-    "nyc": "^15.0.0",
-    "prettier": "^2.3.0",
-    "pretty-quick": "^3.0.1",
-    "supertest": "^6.0.0"
+    "@hono/node-server": "^2.1.8",
+    "@nestjs/common": "^12.5.0",
+    "@nestjs/core": "^12.5.0",
+    "@nestjs/platform-express": "^12.5.0",
+    "@nestjs/platform-fastify": "^12.5.0",
+    "@types/bun": "^1.3.0",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.19.1",
+    "@types/on-headers": "^1.0.4",
+    "@types/pretty-time": "^1.1.5",
+    "elysia": "1.4.32",
+    "express": "^5.2.1",
+    "fastify": "^5.12.8",
+    "hono": "^4.13.18",
+    "husky": "^9.1.7",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.2",
+    "typescript": "5.9.3"
+  },
+  "peerDependencies": {
+    "elysia": ">=1.4.32 <1.5.0",
+    "express": ">=4.18.0 <6",
+    "fastify": ">=5.12.8 <6",
+    "hono": ">=4.13.18 <5"
+  },
+  "peerDependenciesMeta": {
+    "elysia": {
+      "optional": true
+    },
+    "express": {
+      "optional": true
+    },
+    "fastify": {
+      "optional": true
+    },
+    "hono": {
+      "optional": true
+    }
+  },
+  "type": "module",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "docs/guide.md"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "packageManager": "bun@1.4.4",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./elysia": {
+      "types": "./dist/elysia.d.ts",
+      "import": "./dist/elysia.js"
+    },
+    "./express": {
+      "types": "./dist/express.d.ts",
+      "import": "./dist/express.js"
+    },
+    "./fastify": {
+      "types": "./dist/fastify.d.ts",
+      "import": "./dist/fastify.js"
+    },
+    "./hono": {
+      "types": "./dist/hono.d.ts",
+      "import": "./dist/hono.js"
+    }
   }
 }

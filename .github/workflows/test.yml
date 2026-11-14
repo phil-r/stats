@@ -3,11 +3,23 @@ on: [push, pull_request]
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: ['22.x', '24.x']
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: '14.x'
-      - run: npm ci
-      - run: npm test
-      - run: npx codecov
+          node-version: ${{ matrix.node }}
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: .bun-version
+      - run: bun install --frozen-lockfile
+      - run: bun fmt --no-script --check
+      - run: bun check
+      - run: bun test
+      - run: bun run build
+      - name: Node listeners (Express, Fastify, Hono and both Nest platforms)
+        run: bun run test:node
+      - name: Packed ESM imports and Node-only consumer declarations
+        run: bun run test:package

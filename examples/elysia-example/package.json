@@ -1,0 +1,12 @@
+{
+  "name": "stats-elysia-example",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "bun index.ts"
+  },
+  "dependencies": {
+    "@phil-r/stats": "file:../..",
+    "elysia": "1.4.32"
+  }
+}

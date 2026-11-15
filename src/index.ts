@@ -45,9 +45,16 @@ export function createStats(opts: StatsOptions = {}): StatsCollector {
   }));
 
   function getStats() {
+    const uptime = process.uptime();
+    // Keep days as the largest unit; pretty-time otherwise emits weeks.
+    const days = Math.floor(uptime / 86400);
+    const remainder = prettyTime(
+      Math.floor((uptime % 86400) * 1e9),
+      uptime >= 1 ? 's' : undefined,
+    );
     const result: Stats = {
-      uptime: process.uptime() * 1e3,
-      uptimeHumanReadable: prettyTime(Math.floor(process.uptime() * 1e9)),
+      uptime: uptime * 1e3,
+      uptimeHumanReadable: days ? `${days}d ${remainder}` : remainder,
       statusCodes,
       ...stats,
     };
